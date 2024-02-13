@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     );
     console.log(file);
   },
-});
+});     
 
 const upload = multer({ storage });
 const router = express.Router();
