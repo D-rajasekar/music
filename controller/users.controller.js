@@ -2,7 +2,7 @@ import { Register } from "../models/users.model.js";
 import usersServices from "../services/users.services.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-// import { v2 as cloudinary } from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 
 async function genHashPassword(userPassword) {
   const NO_OF_ROUNDS = 10;

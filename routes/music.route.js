@@ -4,10 +4,11 @@ const router = express.Router();
 router
   .route("/")
   .get(musicController.getAllmusic)
-  .post(musicController.createMusic)
-  .get(musicController.getMusicByID);
+  .post(musicController.createMusic);
+
 router
   .route("/:id")
+  .get(musicController.getMusicByID)
   .delete(musicController.deleteMusicByID)
   .put(musicController.updateMusicByID);
 
