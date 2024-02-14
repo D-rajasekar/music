@@ -15,6 +15,9 @@ const Register = sequelize.define(
       allowNull: false,
       // allowNull defaults to true
     },
+    avatar:{
+      type:DataTypes.STRING,
+    }
   },
   {
     // Other model options go here

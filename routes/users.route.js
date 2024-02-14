@@ -14,15 +14,19 @@ const storage = multer.diskStorage({
     );
     console.log(file);
   },
-});     
+});
 
 const upload = multer({ storage });
 const router = express.Router();
 
-router.route("/signup").post(usersController.createUser);
-router.route("/login").post(usersController.loginUser);
+router.route("/signup").post( usersController.createUser);
+router.route("/login").post( usersController.loginUser);
+router.route("/logout").post( usersController.logout);
+
 router.route("/").get(auth, usersController.getUserData);
 
-router.route("/pic").post(upload.single("avatar"), usersController.userPic);
+router
+  .route("/pic")
+  .post(auth, upload.single("avatar"), usersController.userPic);
 
 export default router;

@@ -1,15 +1,16 @@
 import express from "express";
 import musicController from "../controller/music.controller.js";
+import { auth } from "../middleware/auth.js";
 const router = express.Router();
 router
   .route("/")
-  .get(musicController.getAllmusic)
-  .post(musicController.createMusic);
+  .get(auth, musicController.getAllmusic)
+  .post(auth, musicController.createMusic);
 
 router
   .route("/:id")
-  .get(musicController.getMusicByID)
-  .delete(musicController.deleteMusicByID)
-  .put(musicController.updateMusicByID);
+  .get(auth, musicController.getMusicByID)
+  .delete(auth, musicController.deleteMusicByID)
+  .put(auth, musicController.updateMusicByID);
 
 export default router;
