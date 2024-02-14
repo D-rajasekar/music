@@ -23,7 +23,7 @@ try {
 //   previewURL: "https://youtu.be/10RnRpMj9Mg?si=dBxnalt2bq5PiqHU",
 //   popularity: 90,
 // });
-//await seedData();
+await seedData();
 const app = express();
 app.use(express.json());
 app.use(cors());
