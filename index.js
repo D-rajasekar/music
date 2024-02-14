@@ -5,11 +5,11 @@ import musicRouter from "./routes/music.route.js";
 import Usersrouter from "./routes/users.route.js";
 import cors from "cors";
 import morgan from "morgan";
+import { seedData } from "./written.js";
 
 try {
   await sequelize.authenticate();
   await sequelize.sync();
-  app.use(morgan("tiny"));
   console.log("Connection has been established successfully.");
 } catch (error) {
   console.error("Unable to connect to the database:", error);
@@ -23,7 +23,7 @@ try {
 //   previewURL: "https://youtu.be/10RnRpMj9Mg?si=dBxnalt2bq5PiqHU",
 //   popularity: 90,
 // });
-
+//await seedData();
 const app = express();
 app.use(express.json());
 app.use(cors());

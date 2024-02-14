@@ -9,7 +9,7 @@ const auth = async (request, response, next) => {
     const tokencheck = await usercheck.findOne({
       where: {
         token,
-        expired: "no",
+        expiry: "no",
       },
     });
     if (tokencheck) {

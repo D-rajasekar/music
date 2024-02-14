@@ -1,11 +1,12 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config.js";
+import { Register } from "./users.model.js";
 
 const usercheck = sequelize.define(
   "usercheck",
   {
     // Model attributes are defined here
-    userid: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -13,7 +14,7 @@ const usercheck = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    expired: {
+    expiry: {
       type: DataTypes.STRING,
       defaultValue: "no",
     },
@@ -22,5 +23,9 @@ const usercheck = sequelize.define(
     // Other model options go here
   }
 );
-//console.log(SignUp === sequelize.models.SignUp); // true
+
+Register.hasMany(usercheck, { onDelete: "cascade", hooks: true });
+Register.hasMany(usercheck, { foreignKey: "user_id" });
+usercheck.belongsTo(Register, { foreignKey: "user_id" });
+console.log(usercheck === sequelize.models.usercheck); // true
 export { usercheck };

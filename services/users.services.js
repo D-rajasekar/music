@@ -5,7 +5,7 @@ async function createUsersquery({ username, password }) {
   try {
     return await Register.create({ username, password });
   } catch (error) {
-    return { msg: error.errors.map((ele) => ele.message).join() };
+    return { msg: error };
   }
 }
 
@@ -21,16 +21,16 @@ async function getUserService() {
   return await Register.findAll();
 }
 
-async function createSessionFunction(userid, token) {
-  return await usercheck.create({ userid, token });
+async function createSessionFunction(user_id, token) {
+  return await usercheck.create({ user_id, token });
 }
 
-async function updateAvatar(url, userID) {
+async function updateAvatar(url, user_id) {
   return await Register.update(
     { avatar: url },
     {
       where: {
-        id: userID,
+        id: user_id,
       },
     }
   );
@@ -44,8 +44,35 @@ async function findIdByToken(tokenKey) {
 }
 
 async function updateExpiry(id) {
-  return await usercheck.update({ expired: "yes" }, { where: { userid: id } });
+  return await usercheck.update({ expiry: "yes" }, { where: { user_id: id } });
 }
+
+////////////////////////////////////////////////////////////////////
+async function sessionCheckToken(token) {
+  return await usercheck.findOne({
+    where: {
+      token: token,
+      expiry: "no",
+    },
+  });
+}
+
+async function checkingRoleID(user_id) {
+  return await Register.findOne({
+    where: {
+      id: user_id,
+    },
+  });
+}
+
+async function distoryMovieDataByID(id) {
+  return await Register.destroy({
+    where: {
+      id: id,
+    },
+  });
+}
+
 export default {
   createUsersquery,
   getUserByName,
@@ -54,4 +81,7 @@ export default {
   updateAvatar,
   findIdByToken,
   updateExpiry,
+  sessionCheckToken,
+  checkingRoleID,
+  distoryMovieDataByID,
 };

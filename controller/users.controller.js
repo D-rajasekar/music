@@ -1,10 +1,10 @@
-import { Register } from "../models/users.model.js";
+// import { Register } from "../models/users.model.js";
 import usersServices from "../services/users.services.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { v2 as cloudinary } from "cloudinary";
-import { request } from "express";
-import { usercheck } from "../models/usercheck.js";
+// import { request } from "express";
+// import { usercheck } from "../models/usercheck.js";
 
 async function genHashPassword(userPassword) {
   const NO_OF_ROUNDS = 10;
@@ -87,7 +87,7 @@ async function userPic(request, response) {
     var tokenKey = request.header("x-auth-token");
     console.log("***************", tokenKey);
     const id = await usersServices.findIdByToken(tokenKey);
-    await usersServices.updateAvatar(publicId.secure_url, id.userid);
+    await usersServices.updateAvatar(publicId.secure_url, id.user_id);
   })();
 }
 
@@ -95,8 +95,38 @@ async function logout(request, response) {
   const token_key = request.header("x-auth-token");
   console.log(token_key);
   const id = await usersServices.findIdByToken(token_key);
-  await usersServices.updateExpiry(id.userid);
+  await usersServices.updateExpiry(id.user_id);
   response.send("token expired");
 }
+//////////////////////////////////////////////////////////////////////
+async function deleteUserDataByID(request, response) {
+  const { id } = request.params;
+  const tokenId = request.header("x-auth-token");
+  const sessionToken = await usersServices.sessionCheckToken(tokenId);
+  const findingUserRoleID = await usersServices.checkingRoleID(
+    sessionToken.dataValues.user_id
+  );
+  console.log(sessionToken.dataValues.user_id);
+  // const findingRoleData = await usersService.checkingRoleDatabyId(findingUserRoleID.dataValues.role_id)
+  console.log(findingUserRoleID.dataValues.role_id);
+  if (findingUserRoleID.dataValues.role_id == 3) {
+    const userDataDelete = await usersServices.distoryMovieDataByID(id);
+    console.log(userDataDelete);
+    const not_Found = { msg: "Not found" };
+    userDataDelete
+      ? response.send("Deleted")
+      : response.status(404).send(not_Found);
+    // } catch (err) {
+    //   response.send({ msg: err });
+    // }
+  }
+}
 
-export default { createUser, loginUser, getUserData, userPic, logout };
+export default {
+  createUser,
+  loginUser,
+  getUserData,
+  userPic,
+  logout,
+  deleteUserDataByID,
+};
