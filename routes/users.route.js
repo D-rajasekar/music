@@ -24,7 +24,7 @@ router.route("/login").post( usersController.loginUser);
 router.route("/logout").post( usersController.logout);
 
 router.route("/").get(auth, usersController.getUserData);
-router.route("id").delete(auth,usersController.deleteUserDataByID);
+router.route("/:id").delete(auth,usersController.deleteUserDataByID);
 
 router
   .route("/pic")
